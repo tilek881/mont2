@@ -92,7 +92,6 @@ class Magic(Hero):
 
     def apply_super_power(self, boss, heroes):
         pass
-        # TODO Here will be implementation of BOOSTING
 
 
 class Berserk(Hero):

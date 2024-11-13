@@ -145,9 +145,9 @@ class MagicSecond(Hero):
         super().__init__(name, health, damage, 'BOOST')
 
     def apply_super_power(self, boss, heroes):
-        boost_amount = randint(1, 5)  # Увеличение урона на случайное значение от 5 до 15
+        boost_amount = randint(1, 5) 
         for hero in heroes:
-            if hero.health > 0 and hero != self:  # Увеличиваем урон только живым героям, кроме себя
+            if hero.health > 0 and hero != self: 
                 hero.damage += boost_amount
         print(f'{self.name} увеличила урон каждого героя на: {boost_amount}.')
 
@@ -156,6 +156,7 @@ class Hacker(Hero):
     def __init__(self, name, health, damage):
         super().__init__(name, health, damage, 'STEAL_HEALTH')
         self.round_count = 0
+
 
     def apply_super_power(self, boss, heroes):
         if self.round_count % 2 == 0:
@@ -173,11 +174,11 @@ class Golem(Hero):
         super().__init__(name, health, damage, 'PROTECT')
 
     def apply_super_power(self, boss, heroes):
-        damage_share = boss.damage // 5  # 1/5 часть урона босса
+        damage_share = boss.damage // 5 
         for hero in heroes:
             if hero.health > 0 and hero != self:
-                hero.health += damage_share  # Уменьшаем урон, который получит герой
-                self.health -= damage_share  # Golem получает эту часть урона
+                hero.health += damage_share  
+                self.health -= damage_share
         print(f'{self.name} получил по {damage_share} урона за каждого героя.')
 
 round_number = 0

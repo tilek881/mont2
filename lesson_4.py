@@ -122,6 +122,63 @@ class Medic(Hero):
             if hero.health > 0 and self != hero:
                 hero.health += self.__heal_points
 
+class Witcher(Hero):
+    def __init__(self, name, health, damage):
+        super().__init__(name, health, damage, 'REVIVE')
+        self.revive_used = False
+
+    def attack(self, boss):
+        pass
+
+    def apply_super_power(self, boss, heroes):
+        if not self.revive_used:
+            for hero in heroes:
+                if hero.health == 0:
+                    hero.health = self.health
+                    self.health = 0
+                    self.revive_used = True
+                    print(f'{self.name} Жертвует собой чтобы оживить: {heroes.name}!')
+                    break
+
+class MagicSecond(Hero):
+    def __init__(self, name, health, damage):
+        super().__init__(name, health, damage, 'BOOST')
+
+    def apply_super_power(self, boss, heroes):
+        boost_amount = randint(1, 5)  # Увеличение урона на случайное значение от 5 до 15
+        for hero in heroes:
+            if hero.health > 0 and hero != self:  # Увеличиваем урон только живым героям, кроме себя
+                hero.damage += boost_amount
+        print(f'{self.name} увеличила урон каждого героя на: {boost_amount}.')
+
+
+class Hacker(Hero):
+    def __init__(self, name, health, damage):
+        super().__init__(name, health, damage, 'STEAL_HEALTH')
+        self.round_count = 0
+
+    def apply_super_power(self, boss, heroes):
+        if self.round_count % 2 == 0:
+            stolen_health = randint(5, 15)
+            if boss.health >= stolen_health:
+                boss.health -= stolen_health
+                hero = choice([h for h in heroes if h.health > 0 and h != self])
+                hero.health += stolen_health
+                print(f'{self.name} украл {stolen_health} здороваья босаа и отдал их {hero.name}.')
+        self.round_count += 1
+
+
+class Golem(Hero):
+    def __init__(self, name, health, damage):
+        super().__init__(name, health, damage, 'PROTECT')
+
+    def apply_super_power(self, boss, heroes):
+        damage_share = boss.damage // 5  # 1/5 часть урона босса
+        for hero in heroes:
+            if hero.health > 0 and hero != self:
+                hero.health += damage_share  # Уменьшаем урон, который получит герой
+                self.health -= damage_share  # Golem получает эту часть урона
+        print(f'{self.name} получил по {damage_share} урона за каждого героя.')
 
 round_number = 0
 
@@ -161,14 +218,19 @@ def is_game_over(boss, heroes):
 
 
 def start_game():
-    boss = Boss(name='Dragon', health=1000, damage=50)
+    boss = Boss(name='Dragon', health=1900, damage=50)
     warrior_1 = Warrior(name='Mario', health=270, damage=10)
     warrior_2 = Warrior(name='Ben', health=280, damage=15)
     magic = Magic(name='Merlin', health=290, damage=10)
     berserk = Berserk(name='Guts', health=260, damage=5)
     doc = Medic(name='Aibolit', health=250, damage=5, heal_points=15)
     assistant = Medic(name='Kristin', health=300, damage=5, heal_points=5)
-    heroes_list = [warrior_1, doc, warrior_2, magic, berserk, assistant]
+    witcher = Witcher(name='Saver', health=200, damage=0)
+    madic_second = MagicSecond(name='Silvia', health=250, damage=10)
+    hacker = Hacker(name='Hacker', health=200, damage=10)
+    golem = Golem(name='Rocky', health=800, damage=5)
+    heroes_list = [warrior_1, doc, warrior_2, magic, berserk, assistant , witcher , madic_second,
+    hacker , golem]
 
     show_statistics(boss, heroes_list)
     while not is_game_over(boss, heroes_list):

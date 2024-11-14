@@ -229,7 +229,7 @@ def start_game():
     witcher = Witcher(name='Saver', health=200, damage=0)
     madic_second = MagicSecond(name='Silvia', health=250, damage=10)
     hacker = Hacker(name='Hacker', health=200, damage=10)
-    golem = Golem(name='Rocky', health=500, damage=5)
+    golem = Golem(name='Rocky', health=600, damage=5)
     heroes_list = [warrior_1, doc, warrior_2, magic, berserk, assistant , witcher , madic_second,
     hacker , golem]
 

@@ -137,7 +137,7 @@ class Witcher(Hero):
                     hero.health = self.health
                     self.health = 0
                     self.revive_used = True
-                    print(f'{self.name} Жертвует собой чтобы оживить: {heroes.name}!')
+                    print(f'{self.name} Жертвует собой чтобы оживить: {hero.name}!')
                     break
 
 class MagicSecond(Hero):
